@@ -24,4 +24,6 @@ jobs:
           push: true
           tags: kwoak/palindrome-node:latest
           context: "{{defaultContext}}:nodejs-service-skeleton"
-          platforms: ["linux/arm64/v8", "linux/arm64"]
+          platforms: 
+            - linux/arm64/v8
+            - linux/arm64
