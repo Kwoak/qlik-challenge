@@ -1,4 +1,4 @@
-FROM --platform=linux/arm64 node:20.15-alpine
+FROM --platform=linux/arm64/v8 node:20.15-alpine
 
 RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 
