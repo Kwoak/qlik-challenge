@@ -6,7 +6,7 @@ const _ = require('lodash');
 const model = new Message()
 
 exports.getMessages = function (req, res) {
-    model.find({}, {text: 1}).exec(function (err, messages) {
+    model.find({}, { text: 1 }).exec(function (err, messages) {
         if (err) {
             res.status(500).send({
                 message: 'Database error finding messages.'
@@ -19,7 +19,7 @@ exports.getMessages = function (req, res) {
 };
 
 exports.getSingleMessage = function (req, res) {
-    model.findById(req.params.id, {text: 1})
+    model.findById(req.params.id, { text: 1 })
         .exec(function (err, message) {
             if (!message || err) {
                 res.status(404).send({
@@ -28,20 +28,26 @@ exports.getSingleMessage = function (req, res) {
                 return;
             }
             res.json(message);
-    });
+        });
 };
 
 exports.postMessage = function (req, res) {
     console.log(req.body)
-    let savedMessage = model.insert(req.body)
-    if (_.isError(savedMessage)) {
-        res.status(500).send({
-            message: 'Database error saving new message.'
+    if (model.checkPalindrome(req.body.text)) {
+        let savedMessage = model.insert(req.body)
+        if (_.isError(savedMessage)) {
+            res.status(500).send({
+                message: 'Database error saving new message.'
+            });
+            return;
+        }
+        res.json(savedMessage);
+    } else {
+        res.status(400).send({
+            message: 'The text is not a Palindrome.'
         });
         return;
     }
-
-    res.json(savedMessage);
 };
 
 exports.deleteMessage = function (req, res) {
