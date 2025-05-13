@@ -32,6 +32,10 @@ class Message {
 			return newDoc
 		})
 	}
+
+	checkPalindrome(text) {
+		return text == text.split('').reverse().join('');
+	}
 }
 
 module.exports = Message;
