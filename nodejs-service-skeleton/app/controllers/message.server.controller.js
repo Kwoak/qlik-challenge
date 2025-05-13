@@ -75,3 +75,10 @@ exports.deleteMessage = function (req, res) {
             });
         });
 };
+
+exports.getHealth = function (req, res) {
+    res.status(200).send({
+        message: 'Service is ready.'
+    });
+    return;
+};

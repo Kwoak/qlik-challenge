@@ -8,5 +8,6 @@ router.get('/messages', message.getMessages)
 router.post('/messages/', message.postMessage)
 router.get('/messages/:id', message.getSingleMessage)
 router.delete('/messages/:id', message.deleteMessage)
+router.get('/health', message.getHealth)
 
 module.exports = router

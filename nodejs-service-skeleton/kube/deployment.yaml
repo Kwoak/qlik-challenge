@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: palindrome-backend
+  namespace: palindrome
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: palindrome-backend
+  template:
+    metadata:
+      labels:
+        app: palindrome-backend
+    spec:
+      containers:
+      - name: palindrome-backend
+        image: kwoak/palindrome-node:latest
+        ports:
+        - containerPort: 9091
+        readinessProbe:
+          httpGet:
+            path: /api/v1/health
+            port: 9091
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: api/v1//health
+            port: 9091
+          initialDelaySeconds: 15
+          periodSeconds: 20
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: palindrome-backend-service
+  namespace: palindrome
+spec:
+  type: NodePort
+  selector:
+    app: palindrome-backend
+  ports:
+    - port: 80
+      targetPort: 9091
+      nodePort: 30080
